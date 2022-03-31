@@ -12,23 +12,52 @@ class Calculator {
     }
 
     delete() {
-
+        if (this.currentOperation === '') return
+        this.currentOperation = this.currentOperation.slice(0,-1)
     }
 
     appendNumber(number) {
-        this.currentOperation = number
+        if (number === '.' && this.currentOperation.includes('.')) return
+        this.currentOperation = this.currentOperation.toString() + number.toString()
     }
 
     chooseOperation(operation) {
-
+        if (this.currentOperation === '') return
+        this.operation = operation
+        this.previousOperation = this.currentOperation.toString() + operation.toString()
+        this.currentOperation = ''
     }
 
     compute() {
+        var result
+        switch(this.operation) {
+            case '+':
+                if (this.currentOperation.includes('.') || this.previousOperation.includes('.')){
+                    result = parseFloat(this.previousOperation.slice(0,-1)) + parseFloat(this.currentOperation)
+                }
+                else {
+                    result = parseInt(this.previousOperation.slice(0,-1)) + parseInt(this.currentOperation)
+                }
+                break;
+            case '-':
 
+                break;
+            case '*':
+                
+                break;
+            case '/':
+                
+                break;
+            default:
+                break;
+        }
+        this.clear()
+        this.previousOperation = toString(result)
     }
 
     updateDisplay() {
         this.currentOperationTextElement.innerText = this.currentOperation
+        this.previousOperationTextElement.innerText = this.previousOperation
     }
 }
 
@@ -49,3 +78,26 @@ numberButtons.forEach(button => {
         calculator.updateDisplay()
     })
 })
+
+operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.chooseOperation(button.innerText)
+        calculator.updateDisplay()
+    })
+})
+
+deleteButton.addEventListener('click', button => {
+    calculator.delete()
+    calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+equalsButton.addEventListener('click', button => {
+    calculator.compute()
+    calculator.updateDisplay()
+})
+
