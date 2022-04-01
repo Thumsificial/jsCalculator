@@ -29,30 +29,26 @@ class Calculator {
     }
 
     compute() {
+        if (this.currentOperation === '' || this.previousOperation === '') return
         var result
         switch(this.operation) {
             case '+':
-                if (this.currentOperation.includes('.') || this.previousOperation.includes('.')){
-                    result = parseFloat(this.previousOperation.slice(0,-1)) + parseFloat(this.currentOperation)
-                }
-                else {
-                    result = parseInt(this.previousOperation.slice(0,-1)) + parseInt(this.currentOperation)
-                }
+                result = parseFloat(this.previousOperation.slice(0,-1)) + parseFloat(this.currentOperation)
                 break;
             case '-':
-
+                result = parseFloat(this.previousOperation.slice(0,-1)) - parseFloat(this.currentOperation)
                 break;
             case '*':
-                
+                result = parseFloat(this.previousOperation.slice(0,-1)) * parseFloat(this.currentOperation)
                 break;
             case '/':
-                
+                result = parseFloat(this.previousOperation.slice(0,-1)) / parseFloat(this.currentOperation)
                 break;
             default:
                 break;
         }
         this.clear()
-        this.previousOperation = toString(result)
+        this.currentOperation = result
     }
 
     updateDisplay() {
